@@ -1,11 +1,11 @@
-// Only bind login logic if we're on the login page
+// Handle login logic
 if (window.location.pathname.endsWith('login.html')) {
     const form = document.getElementById('login-form');
     const errorEl = document.getElementById('error');
   
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      errorEl.textContent = ''; // Reset error
+      errorEl.textContent = '';
   
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
@@ -31,25 +31,28 @@ if (window.location.pathname.endsWith('login.html')) {
       }
     });
   }
-
-  // Handle contact-info view logic if on index.html
-if (window.location.pathname.endsWith('index.html')) {
-    const emailToQuery = 'sender@example.com'; // Simulated sender email
+  
+  // Handle contact info view
+  if (window.location.pathname.endsWith('index.html')) {
+    const emailToQuery = 'sender@example.com';
     const token = localStorage.getItem('token');
     const errorEl = document.getElementById('error');
   
-    if (!token) {
-      errorEl.textContent = 'You must be logged in to view this page.';
-      return;
-    }
+    async function loadContactInfo() {
+      if (!token) {
+        errorEl.textContent = 'You must be logged in to view this page.';
+        return;
+      }
   
-    fetch(`http://localhost:5000/api/contact-info?email=${emailToQuery}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.message) {
-          errorEl.textContent = data.message;
+      try {
+        const res = await fetch(`http://localhost:5000/api/contact-info?email=${emailToQuery}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+  
+        const data = await res.json();
+  
+        if (!res.ok) {
+          errorEl.textContent = data.message || 'Failed to load contact info.';
           return;
         }
   
@@ -58,10 +61,12 @@ if (window.location.pathname.endsWith('index.html')) {
         document.getElementById('title').textContent = data.job_title;
         document.getElementById('department').textContent = data.department;
         document.getElementById('phone').textContent = data.phone_number;
-      })
-      .catch(() => {
-        errorEl.textContent = 'Failed to fetch contact information.';
-      });
-  }
   
+      } catch (err) {
+        errorEl.textContent = 'Error fetching contact data.';
+      }
+    }
+  
+    loadContactInfo();
+  }
   

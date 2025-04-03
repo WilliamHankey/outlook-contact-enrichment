@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:type="MessageRead">
+  <Id>00000000-0000-0000-0000-000000000001</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Developer</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Contact Enrichment Add-in"/>
+  <Description DefaultValue="Simulated Outlook Add-in for enriching sender contact information." />
+  <IconUrl DefaultValue="https://yourdomain.com/icon.png" />
+  <SupportUrl DefaultValue="https://yourdomain.com/support" />
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="Mailbox" />
+    </Sets>
+  </Requirements>
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://localhost:3000/index.html"/>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+  <Permissions>ReadItem</Permissions>
+</OfficeApp>

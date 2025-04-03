@@ -31,4 +31,37 @@ if (window.location.pathname.endsWith('login.html')) {
       }
     });
   }
+
+  // Handle contact-info view logic if on index.html
+if (window.location.pathname.endsWith('index.html')) {
+    const emailToQuery = 'sender@example.com'; // Simulated sender email
+    const token = localStorage.getItem('token');
+    const errorEl = document.getElementById('error');
+  
+    if (!token) {
+      errorEl.textContent = 'You must be logged in to view this page.';
+      return;
+    }
+  
+    fetch(`http://localhost:5000/api/contact-info?email=${emailToQuery}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          errorEl.textContent = data.message;
+          return;
+        }
+  
+        document.getElementById('email').textContent = data.email;
+        document.getElementById('name').textContent = data.full_name;
+        document.getElementById('title').textContent = data.job_title;
+        document.getElementById('department').textContent = data.department;
+        document.getElementById('phone').textContent = data.phone_number;
+      })
+      .catch(() => {
+        errorEl.textContent = 'Failed to fetch contact information.';
+      });
+  }
+  
   

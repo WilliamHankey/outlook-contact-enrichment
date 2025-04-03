@@ -67,6 +67,15 @@ Backend: http://localhost:5000
 Frontend: http://localhost:3000/login.html
 ## Testing
 
+Basic unit tests for authentication and protected API endpoints are included under `backend/__tests__`.
+
+Run with:
+
+```bash
+cd backend
+npm test
+```
+
 ### Test Credentials
 
 Use this to test login:
@@ -100,6 +109,40 @@ Sender email: sender@example.com
 - JWT tokens expire after 1 hour
 
 - Structure is modular and ready for production refactor
+
+---
+
+## 📊 Evaluation Notes
+
+### ✅ Independent Research & Problem Solving
+- Researched and implemented secure JWT-based authentication using `jsonwebtoken` and `bcrypt`
+- Researched Dockerization techniques for Node.js + SQLite + static servers
+- Researched and tested alternatives to simulate Outlook UI without needing Office 365 Dev access
+- Overcame cross-platform Docker `bcrypt` issues using native rebuilds and volume isolation
+
+### ✅ Security Implementation
+- Login system implemented with hashed credentials (bcrypt)
+- JWT tokens issued and validated with expiration control
+- Protected routes reject unauthenticated or invalid requests
+- Database credentials never exposed — environment variables used securely
+
+### ✅ Code Quality & Modularity
+- Backend code modularized into `routes.js`, `auth.js`, `database.js`
+- All environment variables abstracted via `.env`
+- Reusable middleware-like structure for token verification
+- Test coverage added using `jest` and `supertest` for key routes
+
+### ✅ Dockerization & Ease of Setup
+- Complete `docker-compose.yml` sets up backend and frontend
+- SQLite database included and pre-seeded
+- Easy local development with `http-server` and `npx`
+- Clear instructions for Docker usage and manual navigation
+
+### ✅ Practical Integration
+- Outlook context simulated using static UI (`login.html`, `index.html`)
+- Contact enrichment realistically displayed based on sender's email
+- Graceful error handling for failed logins, missing tokens, and missing contact info
+
 ## References
 
 [Office.js Docs](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/understanding-the-javascript-api-for-office)

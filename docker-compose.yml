@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - JWT_SECRET=super_secret_key_goes_here
+    restart: unless-stopped
+
+  # Optional: serve frontend with a static container
+  frontend:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: npx http-server -p 3000
+    ports:
+      - "3000:3000"
